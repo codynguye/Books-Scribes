@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Books &AMP; Scribes </title>
+    <link rel="icon" href="assets/site_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!--<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>-->
+</head>
+
+<body>
+
+
+    <!--Top navigation bar-->
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+
+        <a id="store-name" href="index.html">
+            <label class="logo">Books &amp; Scribes&nbsp;&nbsp;</label></a>
+
+        <ul id="ulNav">
+            <!-- place links here-->
+            <li class="listNav"><a class="active" class="linkNav" href="#"><i class="fa fa-home"></i> <b>Home</b></a>
+            </li>
+            <li class="listNav"><a class="linkNav" href="#"><b>About Us</b></a></li>
+            <li class="listNav"><a class="linkNav" href="#"><i class="fa fa-question-circle-o"></i><b> FAQ</b></a></li>
+            <li class="listNav"><a class="linkNav" href="#"><i class="fa fa-envelope"></i><b> Contact
+                        Information</b></a></li>
+
+        </ul>
+
+    </nav>
+
+
+
+    <!--website hero splash-->
+    <div class="row">
+        <div class="col-2">
+            <h1>Hurry Now On Holiday Sales!</h1>
+            <p>Welcome to Books &AMP Scribes, where literary adventures await! <br>Immerse yourself in a world of
+                captivating stories, knowledge, and imagination. This holiday season, we invite you to explore our vast
+                collection of books, carefully curated to satisfy every reader's taste.</p>
+            <!--Also sign up button-->
+            <a href="" class="splash-register-btn" id="registerLinkb">Sign Up Now &#8594;</a>
+        </div>
+        <div class="col-2">
+            <img src="splash.png" style="max-width: 100%;" alt="splash image" />
+        </div>
+    </div>
+    <div class="lower-nav">
+        <!--Shopping Cart Button-->
+        <div class="dropdown" id="dropdown">
+            <button class="dropbtn"><i class="material-icons"
+                    style=" display: flex; align-items: center;justify-content: center;padding: 10px 20px;">shopping_cart</i>
+                Cart
+                <span id="cartCount" style="font-size: 16px; float: right; color: white; margin-right: 10px;"></span>
+            </button>
+            <div class="dropdown-content">
+                <a id="viewCartLink" href="#">View Cart</a>
+                <a id="checkOutLink" href="#">Check Out</a>
+            </div>
+        </div>
+
+
+
+
+        <!--User Account Button-->
+        <div class="dropdown">
+            <button class="dropbtn"><i class="material-icons"
+                    style=" display: flex; align-items: center;justify-content: center;padding: 10px 20px;">account_circle</i>
+                Account</button>
+            <div class="dropdown-content">
+                <!--<a href="#" id="profileLink">Profile</a>-->
+                <a href="#" id="settingsLink">View Profile</a>
+                <a href="#" id="logoutLink">Logout</a>
+                <a href="#" id="loginLink">Login</a>
+                <a href="#" id="registerLink">Register</a>
+
+            </div>
+        </div>
+
+        <a href="#">
+            <div id="greet" style="font-size: 16px; float: right; color: white; margin-right: 10px;"></div>
+        </a>
+
+
+        <!-- Search bar: implement JS stuff here-->
+        <div class="search-container">
+            <form>
+                <input id="searchInput" type="text" placeholder="     Search books by Title, Author or ISBN">
+
+            </form>
+        </div>
+    </div>
+    <!--Background Pattern-->
+    <div class="background-wallpaper">
+        <img src="background.jpg" width="4536" height="1742" alt="" />
+    </div>
+
+    <!--Show catalogue here-->
+    <div class="header-catalogue" id="header-catalogue">
+        <h1>. * . * Catalogue * . * .</h1>
+    </div>
+
+    <!-- Select Menu -->
+    <div class="category-select" id="category-select">
+        <label for="categoryFilter"><strong>Category</strong></label>
+        <select name="categoryFilter" id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="novel">Novel</option>
+            <option value="history">History</option>
+            <option value="science">Science</option>
+            <option value="education">Education</option>
+            <option value="fiction">Fiction</option>
+            <option value="computing">Computing</option>
+            <option value="business">Business</option>
+        </select>
+    </div>
+    <div class="store-display" id="store-display">
+        <div class="cart-summary">
+            <h2>Your Cart</h2><br>
+            <div id="cartItemsb" style="font-size: 18px; color: black;"></div><br>
+            <div id="cartSumb" style="font-size: 18px; color: black;"></div><br>
+            <div id="cartTaxb" style="font-size: 18px; color: black;"></div><br>
+            <div id="cartFinalPriceb" style="font-size: 18px; color: black;"></div>
+            <div><a style="cursor: pointer;" id="processToViewCart">VIEW CART</a></div>
+        </div>
+
+        <div class="display-area">
+            <!-- Content for the display-area section -->
+            <!-- Add more content as needed -->
+        </div>
+    </div>
+
+    <footer>
+        <p>COIS 3420 - Final Project: Abdul, Adam, Nguyen, Richard</p>
+    </footer>
+
+    <!--LIST OF MODALS USED IN THIS WEBPAGE-->
+
+    <!--viewCart modal-->
+    <div id="viewCartModal" class="modal" style="display: none; z-index: 1000;">
+        <div class="modal-content" style="height: 370px;">
+            <div id="shopping-cart">
+                <h2>Cart Summary</h2><br>
+                <div id="cartItems" style="font-size: 18px; color: black;"></div><br>
+                <div id="cartSum" style="font-size: 18px; color: black;"></div><br>
+                <div id="cartTax" style="font-size: 18px; color: black;"></div><br>
+                <div id="cartFinalPrice" style="font-size: 18px; color: black;"></div>
+            </div>
+            <button type="button" class="btn-primary" id="continueToCheckOut">Continue To Check Out</button>
+        </div>
+    </div>
+
+    <!--checkOutModal-->
+    <div id="checkOutModal" class="modal">
+        <div class="modal-content">
+            <div id="payment">
+                <h2 style="float: left;">Check Out</h2>
+                <form id="cardForm" class="class-payment-form">
+                    <label for="cardHolderName">Cardholder Name:</label>
+                    <input type="text" id="cardHolderName" name="cardHolderName" placeholder="Card Holder Name"
+                        required>
+
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="Card Number" required>
+
+                    <label for="pinNum">PIN:</label>
+                    <input type="text" id="pinNum" name="pinNum" placeholder="PIN" pattern="[0-9]{3}" required>
+
+                    <label for="expireDate">Expiration Date:</label>
+                    <input type="text" id="expireDate" name="expireDate" placeholder="MM/YY"
+                        pattern="(0[1-9]|1[0-2])\/\d{2}" required>
+                </form>
+
+                <form id="shippingForm" action="/submit_shipping" method="post" class="class-payment-form"
+                    style="margin-left: 10px;">
+                    <label for="receiverName">Receiver's Name:</label>
+                    <input type="text" id="receiverName" name="receiverName" placeholder="Receiver's Name" required>
+
+                    <label for="receiverPhone">Receiver's Phone:</label>
+                    <input type="text" id="receiverPhone" name="receiverPhone" placeholder="Receiver's Phone" required>
+
+                    <label for="shippingAddress">Shipping Address:</label>
+                    <input id="shippingAddress" name="shippingAddress" placeholder="Shipping Address" rows="4"
+                        required></input>
+
+                </form>
+                <button type="button" class="btn-primary" id="cartBtn">Pay</button>
+
+                <p id="successMessage" style="color: green; margin-top: 10px;"></p>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content" style="height: 360px;">
+            <h2>Register</h2>
+            <form id="registerform" action="#" method="post">
+                <input id="user-name" type="text" name="username" placeholder="Username" required>
+                <input id="school-name" type="text" name="school-name" placeholder="Your School" required>
+                <input id="e-mail" type="email" name="email" placeholder="Email" required>
+                <input id="pass-word" type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Create New User</button>
+                <p id="successMessageRegister" style="color: green;"></p>
+                <p id="failMessage" style="color: red; margin-top: 10px;"></p>
+            </form>
+
+
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content" style="height: 250px;">
+            <h2>Login</h2>
+            <form id="loginform" action="#" method="post">
+                <input id="emailInp" type="text" name="email" placeholder="Email" required>
+                <input id="passInp" type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary">Login</button>
+                <a href="#" id="forgetPasswordLink">Forget password ?</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content" style="height: 220px;">
+            <h2>Reset Password</h2>
+            <form id="resetForm" action="#" method="post">
+                <label class="form-label">Your Email:</label>
+                <input id="forgetEmail" type="text" name="email" placeholder="Email" required>
+                <button id="submit-data" class="btn-primary">Send link to email</button>
+                <p id="successMessageResetPassword" style="color: green; margin-top: 10px;"></p>
+            </form>
+
+
+        </div>
+    </div>
+
+    <!--Settings Modal-->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content" style="height: 340px;">
+
+            <h2>Profile</h2>
+            <form id="" action="#" method="post">
+                <p>Your School: <span id="schoolShow"></span></p>
+                <p>Your Email: <span id="emailShow"></span></p><br>
+                <p>Change username or school:</p>
+                <input id="usernameInput" type="text" placeholder="Username" class="form-control">
+                <input id="schoolnameInput" type="text" placeholder="Your School" class="form-control">
+
+                <button type="button" class="btn-primary" id="saveContentBtn">Save</button>
+                <a id="resetPassword" href="#" style="color: black">Change your password ?</a>
+                <p id="successMessageSettings" style="color: green; margin-top: 10px;"></p>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+    <!--Script when click forget password in Login modal-->
+    <script>
+        document.getElementById('forgetPasswordLink').addEventListener('click', function () {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('resetPasswordModal').style.display = 'block';
+        });
+
+
+    </script>
+
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js";
+        import { getDatabase, set, get, ref, child, onValue } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+        //ATTACH YOUR OWN FIREBASE CONFIG
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAF_mj8S8EeM8cAv5zsq0iklFC6XhjSF_s",
+            authDomain: "bookstore-51911.firebaseapp.com",
+            databaseURL: "https://bookstore-51911-default-rtdb.firebaseio.com",
+            projectId: "bookstore-51911",
+            storageBucket: "bookstore-51911.appspot.com",
+            messagingSenderId: "770686101848",
+            appId: "1:770686101848:web:f22f780f07f6280b759d2d",
+            measurementId: "G-Z0RKJXYL41"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
+        const auth = getAuth(app);
+        const dbref = ref(db);
+        const user = auth.currentUser;
+
+        let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+        //reset password modal
+
+        let submit_data = document.getElementById("submit-data");
+        let forgetEmail = document.getElementById("forgetEmail");
+
+        submit_data.addEventListener('click', () => {
+            sendPasswordResetEmail(auth, forgetEmail.value)
+                .then(() => {
+                    forgetEmail = "";
+                    console.log("Password reset link sent !");
+                    alert("Password reset link sent !");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(error);
+                });
+        })
+
+
+        //loginModal and resetPasswordModal
+
+        //loginModal and resetPasswordModal open/close
+        let loginModal = document.getElementById('loginModal');
+        let resetPasswordModal = document.getElementById('resetPasswordModal');
+
+        function toggleLogInModal() {
+            loginModal.style.display = "block"
+
+        }
+        const loginLink = document.getElementById('loginLink');
+        if (loginLink) {
+            loginLink.addEventListener('click', toggleLogInModal
+            );
+        }
+        window.onclick = function (event) {
+            if (event.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (event.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+            if (event.target === resetPasswordModal) {
+                resetPasswordModal.style.display = 'none';
+            }
+
+        };
+
+        //loginModal scripts
+        let EmailInp = document.getElementById('emailInp');
+        let PassInp = document.getElementById('passInp');
+        let LoginForm = document.getElementById('loginform');
+
+        let SignInUser = evt => {
+            evt.preventDefault();
+
+
+
+            signInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then((credentials) => {
+                    get(child(dbref, 'UserList/' + credentials.user.uid)).then((snapshot) => {
+                        if (snapshot.exists) {
+
+                            sessionStorage.setItem('user-info', JSON.stringify({
+                                email: snapshot.val().email,
+                                password: snapshot.val().password,
+                                username: snapshot.val().username
+                            }))
+                            sessionStorage.setItem("user-creds", JSON.stringify(credentials.user));
+                            window.location.href = 'index.html';
+
+                            console.log('Successfully login !');
+
+                        }
+                    })
+                })
+                .catch((error) => {
+                    alert('Invalid email or password');
+                    console.log(error.code);
+                    console.log(error.message);
+                })
+        }
+
+        LoginForm.addEventListener('submit', SignInUser);
+
+        //registerModal close/open
+        let registerModal = document.getElementById('registerModal');
+
+        function toggleRegisterModal(event) {
+            event.preventDefault();
+            registerModal.style.display = "block"
+
+        }
+        const registerLink = document.getElementById('registerLink');
+        if (registerLink) {
+            registerLink.addEventListener('click', toggleRegisterModal
+            );
+        }
+
+        const registerLinkb = document.getElementById('registerLinkb');
+        if (registerLinkb) {
+            registerLinkb.addEventListener('click', function (event) {
+                event.preventDefault();
+                registerModal.style.display = "block";
+            });
+        }
+
+
+        //registerModal scripts
+
+        let UserName = document.getElementById('user-name');
+        let SchoolName = document.getElementById('school-name')
+        let Email = document.getElementById('e-mail');
+        let PassWord = document.getElementById('pass-word');
+        let RegisterForm = document.getElementById('registerform');
+
+        let RegisterUser = evt => {
+
+            evt.preventDefault();
+
+            createUserWithEmailAndPassword(auth, Email.value, PassWord.value)
+
+                .then((credentials) => {
+                    set(ref(db, 'UserList/' + credentials.user.uid), {
+                        username: UserName.value,
+                        school: SchoolName.value,
+                        email: Email.value,
+                        password: PassWord.value
+                    })
+                    document.getElementById('failMessage').textContent = '';
+
+                    document.getElementById('successMessageRegister').textContent = 'Successfully registered!';
+                    console.log('You are registered !');
+                })
+                .catch((error) => {
+                    document.getElementById('successMessageRegister').textContent = '';
+                    if (error.code === 'auth/weak-password') {
+                        document.getElementById('failMessage').textContent = 'Please use stronger password. Password must has at least 6 characters!';
+                    } else if (error.code === 'auth/email-already-in-use') {
+                        document.getElementById('failMessage').textContent = 'Email has been used.';
+                    }
+                    else {
+                        document.getElementById('failMessage').textContent = 'Registration failed. Please try again.';
+                    } console.log(error.code);
+                    console.log(error.message);
+                })
+        }
+
+        RegisterForm.addEventListener('submit', RegisterUser);
+
+
+
+
+
+        //logout and check cred
+        let GreetHead = document.getElementById('greet');
+        let SignoutBtn = document.getElementById('logoutLink');
+
+        let Signout = () => {
+            sessionStorage.removeItem("user-creds");
+            sessionStorage.removeItem("user-info");
+            window.location.href = "index.html";
+            console.log("Log Out successfully");
+
+        }
+
+        function alertDropDownBeforeLogin() {
+            alert('You have to log in first !');
+        }
+
+        function CheckCred() {
+            if (!UserCreds) {
+                // User is not logged in
+                const profileLink = document.getElementById('profileLink');
+                const settingsLink = document.getElementById('settingsLink');
+                const logoutLink = document.getElementById('logoutLink');
+                const storeDisplay = document.getElementById('store-display');
+                const headerCatalogue = document.getElementById('header-catalogue');
+                const categorySelect = document.getElementById('category-select');
+                const dropdown = document.getElementById('dropdown');
+                dropdown.addEventListener('click', alertDropDownBeforeLogin)
+                // Hide profile and settings links
+                if (profileLink) {
+                    profileLink.style.display = 'none';
+                }
+                if (settingsLink) {
+                    settingsLink.style.display = 'none';
+                }
+                if (logoutLink) {
+                    logoutLink.style.display = 'none';
+                }
+                if (storeDisplay) {
+                    storeDisplay.style.display = 'none';
+                }
+                if (headerCatalogue) {
+                    headerCatalogue.style.display = 'none';
+                }
+                if (categorySelect) {
+                    categorySelect.style.display = 'none';
+                }
+
+
+            } else {
+                // User is logged in
+                GreetHead.innerText = `Hello, ${UserInfo.username} !`;
+                // Hide login and register links
+                const loginLink = document.getElementById('loginLink');
+                const registerLink = document.getElementById('registerLink');
+                const registerLinkb = document.getElementById('registerLinkb')
+                if (loginLink && registerLink) {
+                    loginLink.style.display = 'none';
+                    registerLink.style.display = 'none';
+                    registerLinkb.style.display = 'none';
+                }
+            }
+            //checkUserLoginStatus();
+
+        }
+        CheckCred();
+        console.log("Current Username: " + UserInfo.email);
+        SignoutBtn.addEventListener('click', Signout)
+
+
+        //settings modal
+        //settings modal: change Username
+
+        let settingsModal = document.getElementById('settingsModal');
+        let settingsLink = document.getElementById('settingsLink');
+
+
+        settingsLink.onclick = function () {
+            settingsModal.style.display = 'block';
+            ShowData();
+
+        };
+
+
+        let UsernameInput = document.getElementById('usernameInput');
+        let SchoolnameInput = document.getElementById('schoolnameInput');
+        let SaveContentBtn = document.getElementById('saveContentBtn');
+        const emailShow = document.getElementById('emailShow');
+        const schoolShow = document.getElementById('schoolShow');
+
+        function showEmail() {
+            emailShow.textContent = UserInfo.email;
+        }
+        function showSchool(){
+            schoolShow.textContent = UserInfo.school;
+        }
+        
+
+        function ShowData() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+                    const dataRef = ref(db, "UserList/" + uid);
+                    onValue(dataRef, (snapshot) => {
+                        const userData = snapshot.val();
+                        if (userData) {
+                            UsernameInput.value = userData.username || '';
+                            SchoolnameInput.value = userData.school || '';
+                            UserInfo.email = userData.email || '';
+                            UserInfo.school = userData.school || '';
+                            showEmail();
+                            showSchool();
+                        }
+                        else { }
+                    })
+                }
+            })
+        }
+
+        function ChangeData() {
+
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+                    set(ref(db, "UserList/" + uid), {
+                        username: UsernameInput.value,
+                        school: SchoolnameInput.value,
+                        email: UserInfo.email,
+                        password: UserInfo.password
+                    })
+                        .then(() => {
+                            const successMessageSettings = document.getElementById('successMessageSettings');
+                            successMessageSettings.textContent = "Your information changed !";
+                            console.log('data saved');
+                            GreetHead.innerText = `Hello, ${UsernameInput.value} !`;
+                        })
+                        .catch((error) => {
+                            console.log('saved failed');
+                        })
+                }
+            })
+
+        };
+        SaveContentBtn.addEventListener('click', ChangeData);
+
+
+        //settings modal: change password
+
+        let ResetPassword = document.getElementById('resetPassword');
+
+        ResetPassword.addEventListener('click', () => {
+            sendPasswordResetEmail(auth, UserCreds.email)
+                .then(() => {
+                    successMessageSettings.textContent = "Change Password link sent to: " + UserInfo.email;
+                    console.log("check your email");
+                })
+                .catch((error) => {
+                    console.log("Failed");
+                    successMessageResetPassword.textContent = "";
+                    failMessageResetPassword.textContent = "Email is not correct !";
+                    alert("Email is not correct ");
+
+                })
+        })
+
+        
+
+        //settingsModal.addEventListener('click', showEmail);
+
+
+        //display books
+        const DislayArea = document.querySelector('.display-area');
+
+        function renderBookEntries(data) {
+            DislayArea.innerHTML = '';
+
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const book = data[key];
+                    const bookEntry = document.createElement('div');
+                    bookEntry.className = 'book-entry';
+                    bookEntry.innerHTML = `
+                        <div class="book-box">
+                            <div class="book-display">
+                                <img src="${book.book_img}" alt="${book.book_name}">
+                            </div>
+                            <div class="book-info">
+                                <h4 class="book-name"><b>${book.book_name}</b></h4>
+                                <h5 class="book-author"><i><span class="book-category">${book.category}</span> by ${book.author}</i></h5>
+                                <b><span style="font-size: 19px;" class="book-price">$${book.price}</span></b>
+
+                            </div>
+
+                        </div>
+                        <button class="add-to-cart-btn" 
+    id="add-to-cart-btn-${book.book_name}" 
+    data-book-name="${book.book_name}" 
+    data-book-price="${book.price}" 
+    type='submit'">
+    Add to Cart
+  </button>
+
+                    `;
+                    DislayArea.appendChild(bookEntry);
+
+                }
+            }
+        }
+        onValue(ref(db, 'BookList'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                renderBookEntries(data);
+            }
+        });
+        //search and filter method
+        document.getElementById('categoryFilter').addEventListener('change', (event) => {
+            const selectedCategory = event.target.value.toLowerCase();
+            filterBooks(null, selectedCategory);
+        });
+        function filterBooks(searchTerm, selectedCategory) {
+            const bookEntries = document.querySelectorAll('.book-entry');
+
+            bookEntries.forEach((bookEntry) => {
+                const bookInfo = bookEntry.querySelector('.book-info').innerText.toLowerCase();
+                const bookCategory = bookEntry.querySelector('.book-category').innerText.toLowerCase();
+
+                const shouldDisplay = (searchTerm === null || bookInfo.includes(searchTerm)) &&
+                    (selectedCategory === 'all' || bookCategory.includes(selectedCategory));
+
+                bookEntry.style.display = shouldDisplay ? 'block' : 'none';
+            });
+        }
+        document.getElementById('searchInput').addEventListener('input', (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value.toLowerCase();
+            filterBooks(searchTerm, selectedCategory);
+        });
+        //cart div
+        let cartItems = [];
+        let cartCount = 0;
+        let cartTotal = 0;
+        const cartTotalElement = document.getElementById('cartTotal');
+
+        function updateCartCount() {
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.innerText = `(${cartCount})`;
+            }
+        }
+        function updateCartTotal() {
+            if (cartTotalElement) {
+                cartTotalElement.innerText = `Total: $${cartTotal.toFixed(2)} + Taxes`;
+            }
+        }
+        function addToCart(bookName, bookPrice) {
+            cartItems.push({ name: bookName, price: bookPrice });
+            cartCount++;
+            cartTotal += bookPrice;
+
+            updateCartCount();
+            updateCartTotal();
+            ShowCartB();
+
+            console.log(`${bookName} added to cart`);
+        }
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('add-to-cart-btn')) {
+                const bookName = event.target.getAttribute('data-book-name');
+                const bookPrice = parseFloat(event.target.getAttribute('data-book-price'));
+
+                addToCart(bookName, bookPrice);
+            }
+        });
+        //viewCartModal open/close
+        let viewCartModal = document.getElementById('viewCartModal');
+
+        function toggleViewCartModal() {
+            viewCartModal.style.display = "block"
+            if (viewCartModal.style.display === 'block') {
+                ShowCart();
+            }
+        }
+        const ViewCartLink = document.getElementById('viewCartLink');
+        if (ViewCartLink) {
+            ViewCartLink.addEventListener('click', toggleViewCartModal);
+        }
+        window.onclick = function (event) {
+            if (event.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+            if (event.target === viewCartModal) {
+                viewCartModal.style.display = 'none';
+            }
+            if (event.target === checkOutModal) {
+                checkOutModal.style.display = 'none';
+            }
+
+        };
+        let processToViewCart = document.getElementById('processToViewCart');
+        processToViewCart.addEventListener('click', toggleViewCartModal);
+
+        //viewCartModal scripts
+
+        viewCartModal.onclick = function () {
+            ShowCart();
+        };
+        function ShowCart() {
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            let CartSum = document.getElementById('cartSum');
+            let CartFinalPrice = document.getElementById('cartFinalPrice');
+            let CartTax = document.getElementById('cartTax');
+
+            let sum = 0; let finalPrice = 0; let tax = 0;
+            cartItemsElement.innerHTML = '';
+
+            cartItems.forEach((item) => {
+                const cartItemEntry = document.createElement('div');
+                cartItemEntry.className = 'cart-item-entry';
+                cartItemEntry.innerHTML = `
+      <p>${item.name} - $${item.price.toFixed(2)} </p>      
+      
+    `;
+                cartItemsElement.appendChild(cartItemEntry);
+                sum += item.price;
+                tax = sum / 100 * 13;
+                finalPrice = sum + tax;
+
+            });
+            let Sum = `${sum.toFixed(2)}`;
+            let Tax = `${tax.toFixed(2)}`;
+
+            let FinalPrice = `${finalPrice.toFixed(2)}`;
+
+            CartSum.innerHTML = `<b>Order Value:</b> $${Sum}`;
+            CartTax.innerHTML = `<b>Tax:</b> $${Tax}`;
+            CartFinalPrice.innerHTML = `<b>Total:</b> $${FinalPrice}`;
+
+
+        }
+        function removeFromCart(index) {
+            const removedItem = cartItems.splice(index, 1)[0];
+            cartCount--;
+            cartTotal -= removedItem.price;
+            updateCartCount();
+            updateCartTotal();
+            ShowCart();
+            ShowCartB();
+
+        }
+
+
+
+        //cart-summary display
+
+        function ShowCartB() {
+            const cartItemsElement = document.getElementById('cartItemsb');
+            let CartSum = document.getElementById('cartSumb');
+            let CartFinalPrice = document.getElementById('cartFinalPriceb');
+            let CartTax = document.getElementById('cartTaxb');
+
+            let sum = 0; let finalPrice = 0; let tax = 0;
+            cartItemsElement.innerHTML = '';
+
+            cartItems.forEach((item, index) => {
+                const cartItemEntry = document.createElement('div');
+                cartItemEntry.className = 'cart-item-entry';
+                cartItemEntry.innerHTML = `
+      <p>${item.name} - $${item.price.toFixed(2)}   <span style="cursor: pointer;" class="remove-items" data-index="${index}"">
+remove
+</span></p>      
+      
+    `;
+                cartItemsElement.appendChild(cartItemEntry);
+                sum += item.price;
+                tax = sum / 100 * 13;
+                finalPrice = sum + tax;
+
+            });
+            let Sum = `${sum.toFixed(2)}`;
+            let Tax = `${tax.toFixed(2)}`;
+            let FinalPrice = `${finalPrice.toFixed(2)}`;
+
+            CartSum.innerHTML = `<b>Order Value:</b> $${Sum}`;
+            //CartTax.innerHTML = `<b>Tax:</b> $${Tax}`;
+            //CartFinalPrice.innerHTML = `<b>Total:</b> $${FinalPrice}`;
+
+            const removeButtons = document.querySelectorAll('.remove-items');
+            removeButtons.forEach((button) => {
+                button.addEventListener('click', function () {
+                    const index = parseInt(button.getAttribute('data-index'));
+                    removeFromCart(index);
+                });
+            });
+        }
+        ShowCartB();
+
+
+
+        //in viewCartModal, click "Continue to Check Out" and switch to Checkout
+        var continueToCheckOutBtn = document.getElementById('continueToCheckOut');
+
+        function openCheckOutModal() {
+            viewCartModal.style.display = 'none';
+
+            checkOutModal.style.display = 'block';
+        }
+
+        if (continueToCheckOutBtn) {
+            continueToCheckOutBtn.addEventListener('click', openCheckOutModal);
+            ShowCardInfo();
+            ShowShippingInfo();
+        }
+
+
+
+        //checkOutModal
+        //checkOutModal open/close
+        let checkOutModal = document.getElementById('checkOutModal');
+
+        function toggleCheckOutModal() {
+            checkOutModal.style.display = "block"
+            if (checkOutModal.style.display === 'block') {
+                ShowCardInfo();
+                ShowShippingInfo();
+            }
+        }
+        const CheckOutLink = document.getElementById('checkOutLink');
+        if (CheckOutLink) {
+            CheckOutLink.addEventListener('click', toggleCheckOutModal);
+        }
+        //checkoutModal scripts
+        let Payment = document.getElementById('payment');
+        let CardForm = document.getElementById('cardForm');
+        let CardHolderName = document.getElementById('cardHolderName');
+        let CardNumber = document.getElementById('cardNumber');
+        let PinNum = document.getElementById('pinNum');
+        let ExpireDate = document.getElementById('expireDate');
+        let ShippingForm = document.getElementById('shippingForm');
+        let ReceiverName = document.getElementById('receiverName');
+        let ReceiverPhone = document.getElementById('receiverPhone');
+        let ShippingAddress = document.getElementById('shippingAddress');
+        let CartBtn = document.getElementById('cartBtn');
+
+        function InsertCardInfo() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+
+                    set(ref(db, "CardInfo/" + uid), {
+                        CardHolderName: CardHolderName.value,
+                        CardNumber: CardNumber.value,
+                        PinNum: PinNum.value,
+                        ExpireDate: ExpireDate.value
+                    })
+                        .then(() => {
+                            console.log('card info saved');
+                        })
+                        .catch((error) => {
+                            console.log('failed');
+                        })
+                }
+            })
+        };
+
+        function InsertShippingInfo() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+                    set(ref(db, "ShippingInfo/" + uid), {
+                        ReceiverName: ReceiverName.value,
+                        ReceiverPhone: ReceiverPhone.value,
+                        ShippingAddress: ShippingAddress.value,
+                    })
+                        .then(() => {
+                            console.log('shipping info saved');
+                        })
+                        .catch((error) => {
+                            console.log('failed');
+                        })
+                }
+            })
+        };
+
+        function ShowCardInfo() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+                    const userContentRef = ref(db, "CardInfo/" + uid);
+                    onValue(userContentRef, (snapshot) => {
+                        const userData = snapshot.val();
+                        if (userData) {
+                            const lastFourDigits = userData.CardNumber ? userData.CardNumber.slice(-4) : '';
+
+                            CardHolderName.value = userData.CardHolderName || '';
+                            CardNumber.value = lastFourDigits ? `**** **** **** ${lastFourDigits}` : '';
+                            ExpireDate.value = userData.ExpireDate || '';
+
+                        } else { }
+                    })
+                }
+            })
+        };
+
+        function ShowShippingInfo() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+                    const userContentRef = ref(db, "ShippingInfo/" + uid);
+                    onValue(userContentRef, (snapshot) => {
+                        const userData = snapshot.val();
+                        if (userData) {
+
+                            ReceiverName.value = userData.ReceiverName || '';
+                            ReceiverPhone.value = userData.ReceiverPhone || '';
+                            ShippingAddress.value = userData.ShippingAddress || '';
+
+
+                        } else { }
+                    })
+                }
+            })
+        };
+        function ShowMessage() {
+            document.getElementById('successMessage').textContent = 'Thank you for purchasing!';
+        }
+
+        CartBtn.addEventListener('click', function () {
+            const cardnumber = CardNumber.value;
+            const cardholdername = CardHolderName.value;
+            const Pin = PinNum.value;
+            const exp = ExpireDate.value;
+            const receivername = ReceiverName.value;
+            const receiverphone = ReceiverPhone.value;
+            const shippingaddress = ShippingAddress.value;
+            if (cardholdername.length == 0) {
+                alert('Please enter Card Holder Name');
+                return;
+            }
+            if (cardnumber.length == 0) {
+                alert('Please enter Card Number');
+                return;
+            }
+            if (Pin.length !== 3) {
+                alert('Please enter a 3-digit PIN.');
+                return;
+            }
+            if (isNaN(Pin)) {
+                alert('Please enter correct PIN');
+                return;
+            }
+            if (exp.length !== 4) {
+                alert('Please use correct date format.');
+                return;
+            }
+            if (receivername.length == 0) {
+                alert('Please enter Receiver Name');
+                return;
+            }
+            if (receiverphone.length == 0) {
+                alert('Please enter Receiver Phone Number');
+                return;
+            }
+            if (isNaN(receiverphone)) {
+                alert('Please enter correct Receiver Phone Number');
+                return;
+            }
+            if (shippingaddress.length == 0) {
+                alert('Please enter Shipping Address');
+                return;
+            }
+            InsertCardInfo();
+            InsertShippingInfo();
+            ShowMessage();
+            SaveTransactionData();
+
+        });
+
+        function SaveTransactionData() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const uid = user.uid;
+                    const d = new Date();
+                    const timestamp = d.toString();
+
+                    set(ref(db, "Transaction/" + timestamp + " " + uid), {
+                        Time: timestamp,
+                        Books: cartItems.map(item => item.name),
+                        Price: cartTotal.toFixed(2),
+                        cardNumber: CardNumber.value,
+                        cardHolderName: CardHolderName.value,
+                        pinNum: PinNum.value,
+                        expireDate: ExpireDate.value,
+                        receiverName: ReceiverName.value,
+                        receiverPhone: ReceiverPhone.value,
+                        shippingAddress: ShippingAddress.value
+                    })
+                        .then(() => {
+                            console.log('Transaction data saved');
+                        })
+                        .catch((error) => {
+                            console.log('Failed');
+                        });
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

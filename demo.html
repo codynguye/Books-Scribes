@@ -1,0 +1,229 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>Book Store</title>
+  <!-- update the version number as needed -->
+  <!-- include only the Firebase features as you need -->
+
+</head>
+
+<body>
+  <header id="header-container">
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="user-links">
+      <a href="#" id="loginLink">Log In</a>
+      <a href="#" id="registerLink">Register</a>
+    </div>
+  </header>
+
+
+  <div class="main">
+    <h1>
+      Welcome to Book Store
+    </h1>
+    <h3>
+      Register or Login to start buying books
+    </h3>
+  </div>
+
+
+  <footer>
+    <p>&copy; 2023 Book Store</p>
+  </footer>
+
+  <div>
+    <form>
+      <label></label>
+    </form>
+  </div>
+
+  <!-- Register Modal -->
+
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeRegisterModal()">&times;</span>
+      <!-- Add your registration form content here -->
+      <h2>Register</h2>
+      <form id="registerform" action="#" method="post">
+        <!-- Your registration form fields -->
+        <input id="user-name" type="text" name="username" placeholder="Username" required>
+        <input id="e-mail" type="email" name="email" placeholder="Email" required>
+        <input id="pass-word" type="password" name="password" placeholder="Password" required>
+        <button type="submit" class="btn-primary">Create New User</button>
+      </form>
+      <p id="successMessage" style="color: green; margin-top: 10px;"></p>
+      <p id="failMessage" style="color: red; margin-top: 10px;"></p>
+
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeLoginModal()">&times;</span>
+      <h2>Login</h2>
+      <form id="loginform" action="#" method="post">
+        <input id="emailInp" type="text" name="email" placeholder="Email" required>
+        <input id="passInp" type="password" name="password" placeholder="Password" required>
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Get the modal elements
+    var registerModal = document.getElementById('registerModal');
+    var loginModal = document.getElementById('loginModal');
+
+    // Get the links that open the modals
+    var registerLink = document.getElementById('registerLink');
+    var loginLink = document.getElementById('loginLink');
+
+    // When the user clicks the "Register" link, open the register modal
+    registerLink.onclick = function () {
+      registerModal.style.display = 'block';
+    };
+
+    // When the user clicks the "Login" link, open the login modal
+    loginLink.onclick = function () {
+      loginModal.style.display = 'block';
+    };
+
+    // Function to close the modals
+    function closeRegisterModal() {
+      registerModal.style.display = 'none';
+    }
+
+    function closeLoginModal() {
+      loginModal.style.display = 'none';
+    }
+
+    // Close the modals if the user clicks outside of them
+    window.onclick = function (event) {
+      if (event.target === registerModal) {
+        registerModal.style.display = 'none';
+      }
+      if (event.target === loginModal) {
+        loginModal.style.display = 'none';
+      }
+    };
+  </script>
+
+  <!--Register and Login modal-->
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js";
+    import { getDatabase, set, get, ref, child } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAF_mj8S8EeM8cAv5zsq0iklFC6XhjSF_s",
+      authDomain: "bookstore-51911.firebaseapp.com",
+      databaseURL: "https://bookstore-51911-default-rtdb.firebaseio.com",
+      projectId: "bookstore-51911",
+      storageBucket: "bookstore-51911.appspot.com",
+      messagingSenderId: "770686101848",
+      appId: "1:770686101848:web:f22f780f07f6280b759d2d",
+      measurementId: "G-Z0RKJXYL41"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase();
+    const auth = getAuth(app);
+    const dbref = ref(db);
+    const user = auth.currentUser;
+
+    let UserName = document.getElementById('user-name');
+    let Email = document.getElementById('e-mail');
+    let PassWord = document.getElementById('pass-word');
+    let RegisterForm = document.getElementById('registerform');
+    //Register modal
+
+    let RegisterUser = evt => {
+      evt.preventDefault();
+      createUserWithEmailAndPassword(auth, Email.value, PassWord.value)
+
+        .then((credentials) => {
+          set(ref(db, 'UserList/' + credentials.user.uid), {
+            username: UserName.value,
+            email: Email.value,
+            password: PassWord.value
+          })
+          document.getElementById('successMessage').textContent = 'Successfully registered!';
+          document.getElementById('failMessage').textContent = '';
+          console.log('You are registered !');
+        })
+        .catch((error) => {
+          document.getElementById('successMessage').textContent = '';
+          document.getElementById('failMessage').textContent = 'Email has been used !';
+          console.log(error.code);
+          console.log(error.message);
+        })
+    }
+
+    RegisterForm.addEventListener('submit', RegisterUser);
+
+    //Login modal
+    let EmailInp = document.getElementById('emailInp');
+    let PassInp = document.getElementById('passInp');
+    let LoginForm = document.getElementById('loginform');
+
+    let SignInUser = evt => {
+      evt.preventDefault();
+
+      signInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+        .then((credentials) => {
+          get(child(dbref, 'UserList/' + credentials.user.uid)).then((snapshot) => {
+            if (snapshot.exists) {
+
+              sessionStorage.setItem('user-info', JSON.stringify({
+                email: snapshot.val().email,
+                password: snapshot.val().password,
+                username: snapshot.val().username
+              }))
+              sessionStorage.setItem("user-creds", JSON.stringify(credentials.user));
+              window.location.href = 'test.html';
+              //window.location.href = 'bookstore.html';
+
+              console.log('Successfully login !');
+
+            }
+          })
+        })
+        .catch((error) => {
+          alert('Invalid email or password');
+          console.log(error.code);
+          console.log(error.message);
+        })
+    }
+
+    LoginForm.addEventListener('submit', SignInUser);
+
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>

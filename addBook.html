@@ -1,0 +1,139 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" ;>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Insert</title>
+    <link rel="stylesheet" href="addBook.css">
+
+</head>
+
+<body>
+    <div class="background-wallpaper">
+        <img src="background.jpg" width="4536" height="1742" alt="" />
+    </div>
+    <form id="bookForm">
+        <h1>Administrator Only</h1>
+
+        <label for="bookImage">Book Image:</label>
+        <input type="file" id="bookImage" accept="image/*">
+
+        <label for="bookName">Book Name:</label>
+        <input type="text" id="bookName" required>
+
+        <label for="bookAuthor">Book Author:</label>
+        <input type="text" id="bookAuthor" required><br>
+
+
+        <label for="bookPrice">Book Price:</label>
+        <input type="text" id="bookPrice" required><br>
+
+        <label for="bookCategory">Book Category:</label>
+        <select name="bookCategory" id="bookCategory" required>
+            <option value="novel">Novel</option>
+            <option value="history">History</option>
+            <option value="science book">Science</option>
+            <option value="education book">Education</option>
+            <option value="fiction">Fiction</option>
+            <option value="computing book">Computing</option>
+            <option value="business book">Business</option>
+        </select>
+
+
+        <button type="submit">Save Book</button>
+
+    </form>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+        import { getDatabase, push, set, ref as databaseRef, get, child } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAF_mj8S8EeM8cAv5zsq0iklFC6XhjSF_s",
+            authDomain: "bookstore-51911.firebaseapp.com",
+            databaseURL: "https://bookstore-51911-default-rtdb.firebaseio.com",
+            projectId: "bookstore-51911",
+            storageBucket: "bookstore-51911.appspot.com",
+            messagingSenderId: "770686101848",
+            appId: "1:770686101848:web:f22f780f07f6280b759d2d",
+            measurementId: "G-Z0RKJXYL41"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const storage = getStorage();
+
+
+        let BookForm = document.getElementById('bookForm');
+
+        function saveBook(event) {
+            event.preventDefault();
+
+            let BookName = document.getElementById('bookName').value;
+            let BookAuthor = document.getElementById('bookAuthor').value;
+            let BookPrice = document.getElementById('bookPrice').value;
+            let BookImage = document.getElementById('bookImage').files[0];
+            let BookCategory = document.getElementById('bookCategory').value;
+
+            if (BookName.length == 0) {
+                alert('Please enter a book title');
+                return;
+            }
+            if (BookAuthor.length == 0) {
+                alert('Please enter an author');
+                return;
+            }
+            if (BookPrice.length == 0) { 
+                alert('Please enter the price');
+                return;
+            }
+            if (isNaN(BookPrice) || BookPrice <= 0) {
+                alert('Please enter a valid and positive price');
+                return;
+            }
+
+            const storageRef = ref(storage, BookName + " - " + BookAuthor);
+
+            uploadBytes(storageRef, BookImage)
+                .then((snapshot) => {
+                    getDownloadURL(storageRef)
+                        .then((downloadURL) => {
+                            set(databaseRef(db, 'BookList/' + BookName + " - " + BookAuthor), {
+                                book_name: BookName,
+                                book_img: downloadURL, 
+                                author: BookAuthor,
+                                price: BookPrice,
+                                category: BookCategory,
+                            })
+                                .then(() => {
+                                    alert('Book added successfully');
+                                    BookForm.reset();
+                                })
+                                .catch((error) => {
+                                    console.error('Error adding book:', error);
+                                    alert('Failed to add book. Please try again.');
+                                });
+                        })
+                        .catch((error) => {
+                            console.error('Error getting download URL:', error);
+                            alert('Failed to get download URL. Please try again.');
+                        });
+                })
+                .catch((error) => {
+                    console.error('Error uploading image:', error);
+                    alert('Failed to upload image. Please try again.');
+                });
+        }
+
+        BookForm.addEventListener('submit', saveBook);
+
+
+    </script>
+
+
+</body>
+
+</html>

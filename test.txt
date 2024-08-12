@@ -1,0 +1,30 @@
+
+//hide cart-summary when user doesnt log in
+        /*function checkUserLoginStatus() {
+            const userCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+            const cartSummary = document.querySelector('.cart-summary');
+
+            if (!userCreds) {
+                // User is not logged in, hide the cart-summary
+                if (cartSummary) {
+                    cartSummary.style.display = 'none';
+                }
+            } else {
+                // User is logged in, show the cart-summary
+                if (cartSummary) {
+                    cartSummary.style.display = 'block';
+                }
+            }
+        }*/
+
+
+
+
+        <!--<div class="cart-summary" style="z-index: 1000;">
+        <h2>Cart Summary</h2>
+        <div id="cartTotal"></div>
+
+    </div>
+
+    <div class="store-display">
+    -->

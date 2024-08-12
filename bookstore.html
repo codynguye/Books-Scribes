@@ -1,0 +1,683 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="bookstore.css">
+  <title>Book Store</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+
+</head>
+
+<body>
+  <header id="header-container">
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+
+      </ul>
+    </nav>
+
+    <div class="user-links">
+      <a href="#">
+        <i>
+          <div id="greet" style="font-size: 16px; float: right; color: white; margin-right: 10px;"></div>
+        </i>
+      </a>
+
+      <a id="yourCartLink" href="#">
+        <div id="yourCart" class="cart-container">
+          <span class="material-symbols-outlined">
+            shopping_cart
+          </span>
+          <div id="cartCount" style="font-size: 18px; float: right; color: white; margin-right: 10px;">
+          </div>
+        </div>
+      </a>
+
+      <a href="#" id="logoutLink">Log Out</a>
+
+    </div>
+  </header>
+
+  <main>
+    <section class="cart-summary">
+      <h3>Cart Summary</h3>
+      <div id="cartTotal" style="font-size: 18px; color: black;"></div>
+    </section>
+
+    <!--Search area-->
+    <section class="search">
+      <input type="text" placeholder="Search for books, authors" id="searchInput">
+    </section>
+    <!--Filter area-->
+    <label for="categoryFilter"><b>Category:</b></label>
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="Novel">Novel</option>
+      <option value="Education">Education</option>
+      <option value="Fiction">Fiction</option>
+      <option value="History">History</option>
+      <option value="Science">Science</option>
+      <option value="Computer">Computer</option>
+      <option value="Business">Business</option>
+    </select>
+
+    <!-- Book display area -->
+    <section class="book-catalog"></section>
+
+  </main>
+
+  <footer>
+    <p>&copy; The website is for schoolwork purpose only</p>
+  </footer>
+
+  <div>
+    <form>
+      <label></label>
+    </form>
+  </div>
+
+  <!--User'profile modal-->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+
+      <h2>User Profile</h2>
+      <form id="" action="#" method="post">
+        <label class="form-label">Username:</label>
+        <input id="usernameInput" type="text" placeholder="Username" class="form-control">
+        <button type="button" class="btn-primary" id="saveContentBtn">Save</button>
+        <a id="resetPassword" href="#">Reset password</a>
+      </form>
+    </div>
+  </div>
+
+  <!--Cart modal-->
+
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <div id="shopping-cart">
+        <h2>Your Cart</h2><br>
+        <div id="cartItems" style="font-size: 18px; color: black;"></div><br>
+        <div id="cartSum" style="font-size: 18px; color: black;"></div><br>
+
+        <div id="cartTax" style="font-size: 18px; color: black;"></div><br>
+        <div id="cartFinalPrice" style="font-size: 18px; color: black;"></div>
+      </div>
+      <br>
+      <div id="payment">
+        <form id="cardForm" class="class-payment-form">
+          <label for="cardHolderName">Cardholder Name:</label>
+          <input type="text" id="cardHolderName" name="cardHolderName" placeholder="Card Holder Name" required>
+
+          <label for="cardNumber">Card Number:</label>
+          <input type="text" id="cardNumber" name="cardNumber" placeholder="Card Number" required>
+
+          <label for="pinNum">PIN:</label>
+          <input type="text" id="pinNum" name="pinNum" placeholder="PIN" pattern="[0-9]{3}" required>
+
+          <label for="expireDate">Expiration Date:</label>
+          <input type="text" id="expireDate" name="expireDate" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}"
+            required>
+        </form>
+
+        <form id="shippingForm" action="/submit_shipping" method="post" class="class-payment-form"
+          style="margin-left: 10px;">
+          <label for="receiverName">Receiver's Name:</label>
+          <input type="text" id="receiverName" name="receiverName" placeholder="Receiver's Name" required>
+
+          <label for="receiverPhone">Receiver's Phone:</label>
+          <input type="text" id="receiverPhone" name="receiverPhone" placeholder="Receiver's Phone" required>
+
+          <label for="shippingAddress">Shipping Address:</label>
+          <input id="shippingAddress" name="shippingAddress" placeholder="Shipping Address" rows="4" required></input>
+
+        </form>
+        <button type="button" class="btn-primary" id="cartBtn">Pay</button>
+        <p id="successMessage" style="color: green; margin-top: 10px;"></p>
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+  </script>
+
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js";
+    import { getDatabase, set, get, ref, child, onValue } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAF_mj8S8EeM8cAv5zsq0iklFC6XhjSF_s",
+      authDomain: "bookstore-51911.firebaseapp.com",
+      databaseURL: "https://bookstore-51911-default-rtdb.firebaseio.com",
+      projectId: "bookstore-51911",
+      storageBucket: "bookstore-51911.appspot.com",
+      messagingSenderId: "770686101848",
+      appId: "1:770686101848:web:f22f780f07f6280b759d2d",
+      measurementId: "G-Z0RKJXYL41"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase();
+    const auth = getAuth(app);
+    const dbref = ref(db);
+    const user = auth.currentUser;
+
+    let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+
+
+    let GreetHead = document.getElementById('greet');
+    let SignoutBtn = document.getElementById('logoutLink');
+
+    let Signout = () => {
+      sessionStorage.removeItem("user-creds");
+      sessionStorage.removeItem("user-info");
+      window.location.href = "index.html";
+      console.log("Log Out successfully");
+
+    }
+
+
+
+    let CheckCred = () => {
+      if (!UserCreds) {
+        window.location.href = "index.html";
+      }
+      else {
+        GreetHead.innerText = `Hello, ${UserInfo.username} !`;
+      }
+    }
+    CheckCred();
+    SignoutBtn.addEventListener('click', Signout)
+
+
+    //display books
+    const bookCatalog = document.querySelector('.book-catalog');
+
+    function renderBookEntries(data) {
+      bookCatalog.innerHTML = ''; 
+
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const book = data[key];
+          const bookEntry = document.createElement('div');
+          bookEntry.className = 'book-entry';
+          bookEntry.innerHTML = `
+                        <div class="book-box">
+                            <div class="book-display">
+                                <img src="${book.book_img}" alt="${book.book_name}">
+                            </div>
+                            <div class="book-info">
+                                <h4 class="book-name">${book.book_name}</h4>
+                                <h5 class="book-author"><i><span class="book-category">${book.category}</span> by ${book.author}</i></h5>
+
+                            </div>
+
+                        </div>
+                        <button class="add-to-cart-btn" 
+    id="add-to-cart-btn-${book.book_name}" 
+    data-book-name="${book.book_name}" 
+    data-book-price="${book.price}" 
+    type='submit'">
+    Add to Cart
+  </button>
+  <span class="book-price">$${book.price}</span>
+
+                    `;
+          bookCatalog.appendChild(bookEntry);
+
+        }
+      }
+
+
+    }
+    onValue(ref(db, 'BookList'), (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        renderBookEntries(data);
+      }
+    });
+
+
+    //Cart count
+    let cartItems = [];
+    3
+    let cartCount = 0;
+    let cartTotal = 0;
+    const cartTotalElement = document.getElementById('cartTotal');
+
+    function updateCartCount() {
+      const cartCountElement = document.getElementById('cartCount');
+      if (cartCountElement) {
+        cartCountElement.innerText = `(${cartCount})`;
+      }
+    }
+
+    function updateCartTotal() {
+      if (cartTotalElement) {
+        cartTotalElement.innerText = `Total: $${cartTotal.toFixed(2)} + Taxes`;
+      }
+    }
+
+    function addToCart(bookName, bookPrice) {
+      cartItems.push({ name: bookName, price: bookPrice });
+      cartCount++;
+      cartTotal += bookPrice;
+
+      updateCartCount();
+      updateCartTotal();
+
+      console.log(`${bookName} added to cart`);
+    }
+
+
+
+    document.addEventListener('click', (event) => {
+      if (event.target.classList.contains('add-to-cart-btn')) {
+        const bookName = event.target.getAttribute('data-book-name');
+        const bookPrice = parseFloat(event.target.getAttribute('data-book-price'));
+
+        addToCart(bookName, bookPrice);
+      }
+    });
+
+    //search and filter method
+
+    document.getElementById('categoryFilter').addEventListener('change', (event) => {
+      const selectedCategory = event.target.value.toLowerCase();
+      filterBooks(null, selectedCategory);
+    });
+
+
+    function filterBooks(searchTerm, selectedCategory) {
+      const bookEntries = document.querySelectorAll('.book-entry');
+
+      bookEntries.forEach((bookEntry) => {
+        const bookInfo = bookEntry.querySelector('.book-info').innerText.toLowerCase();
+        const bookCategory = bookEntry.querySelector('.book-category').innerText.toLowerCase();
+
+        const shouldDisplay = (searchTerm === null || bookInfo.includes(searchTerm)) &&
+          (selectedCategory === 'all' || bookCategory.includes(selectedCategory));
+
+        bookEntry.style.display = shouldDisplay ? 'block' : 'none';
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (event) => {
+      const searchTerm = event.target.value.toLowerCase();
+      const selectedCategory = document.getElementById('categoryFilter').value.toLowerCase();
+      filterBooks(searchTerm, selectedCategory);
+    });
+
+
+    //profile modal
+
+    let profileModal = document.getElementById('profileModal');
+
+    GreetHead.onclick = function () {
+      profileModal.style.display = 'block';
+      ShowData();
+
+    };
+
+    function closeProfileModal() {
+      profileModal.style.display = 'none';
+    }
+
+    window.onclick = function (event) {
+      if (event.target === profileModal) {
+        closeProfileModal();
+      }
+      if (event.target === cartModal) {
+        cartModal.style.display = 'none';
+      }
+    };
+
+
+
+    let UsernameInput = document.getElementById('usernameInput');
+    let ResetPassword = document.getElementById('resetPassword');
+
+    let SaveContentBtn = document.getElementById('saveContentBtn');
+
+    function ShowData() {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          const dataRef = ref(db, "UserList/" + uid);
+          onValue(dataRef, (snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+              UsernameInput.value = userData.username || '';
+            }
+            else { }
+          })
+        }
+      })
+    }
+
+    function ChangeData() {
+
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          set(ref(db, "UserList/" + uid), {
+            username: UsernameInput.value,
+            email: UserInfo.email,
+            password: UserInfo.password
+          })
+            .then(() => {
+              console.log('data saved');
+              GreetHead.innerText = `Hello, ${UsernameInput.value} !`;
+            })
+            .catch((error) => {
+              console.log('saved failed');
+            })
+        }
+      })
+
+    };
+
+    ResetPassword.addEventListener('click', () => {
+      sendPasswordResetEmail(auth, UserCreds.email)
+        .then(() => {
+
+          console.log("check your email");
+          alert("Password Reset Link sent to your email");
+        })
+        .catch((error) => {
+          console.log("Failed");
+        })
+    })
+
+    SaveContentBtn.addEventListener('click', ChangeData);
+
+    //Cart modal scripts
+    let CartItems = document.getElementById('cartItems');
+    let CartTotal = document.getElementById('cartTotal');
+    let YourCart = document.getElementById('yourCart');
+    let cartModal = document.getElementById('cartModal');
+
+    YourCart.onclick = function () {
+      cartModal.style.display = 'block';
+      ShowCart();
+      ShowCardInfo();
+      ShowShippingInfo();
+
+    };
+    function closeCartModal() {
+      cartModal.style.display = 'none';
+    }
+
+
+
+    function ShowCart() {
+      const cartItemsElement = document.getElementById('cartItems');
+      const cartTotalElement = document.getElementById('cartTotal');
+      let sum = 0; let finalPrice = 0; let tax = 0;
+      cartItemsElement.innerHTML = '';
+
+      cartItems.forEach((item) => {
+        const cartItemEntry = document.createElement('div');
+        cartItemEntry.className = 'cart-item-entry';
+        cartItemEntry.innerHTML = `
+      <p>${item.name} - $${item.price.toFixed(2)}   <span style="cursor: pointer;" class="remove-items">
+remove
+</span></p>      
+      
+    `;
+        cartItemsElement.appendChild(cartItemEntry);
+        sum += item.price;
+        //tax
+        tax = sum / 100 * 13;
+        //after tax
+        finalPrice = sum + tax;
+
+      });
+
+
+      let Sum = `${sum.toFixed(2)}`;
+      let Tax = `${tax.toFixed(2)}`;
+
+      let FinalPrice = `${finalPrice.toFixed(2)}`;
+
+      let CartSum = document.getElementById('cartSum');
+      let CartFinalPrice = document.getElementById('cartFinalPrice');
+      let CartTax = document.getElementById('cartTax');
+
+
+      CartSum.innerHTML = `<b>Order Value:</b> $${Sum}`;
+      CartTax.innerHTML = `<b>Tax:</b> $${Tax}`;
+      CartFinalPrice.innerHTML = `<b>Total:</b> $${FinalPrice}`;
+
+      const removeButtons = document.querySelectorAll('.remove-items');
+      removeButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          const index = parseInt(button.getAttribute('data-index'));
+          removeFromCart(index);
+        });
+      });
+
+
+    }
+
+    function removeFromCart(index) {
+      const removedItem = cartItems.splice(index, 1)[0];
+      cartCount--;
+      cartTotal -= removedItem.price;
+      updateCartCount();
+      updateCartTotal();
+      ShowCart();
+    }
+
+
+
+
+
+    //payment method
+
+
+
+
+    let Payment = document.getElementById('payment');
+    let CardForm = document.getElementById('cardForm');
+    let CardHolderName = document.getElementById('cardHolderName');
+    let CardNumber = document.getElementById('cardNumber');
+    let PinNum = document.getElementById('pinNum');
+    let ExpireDate = document.getElementById('expireDate');
+    let ShippingForm = document.getElementById('shippingForm');
+    let ReceiverName = document.getElementById('receiverName');
+    let ReceiverPhone = document.getElementById('receiverPhone');
+    let ShippingAddress = document.getElementById('shippingAddress');
+    let CartBtn = document.getElementById('cartBtn');
+
+    function InsertCardInfo() {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+
+          set(ref(db, "CardInfo/" + uid), {
+            CardHolderName: CardHolderName.value,
+            CardNumber: CardNumber.value,
+            PinNum: PinNum.value,
+            ExpireDate: ExpireDate.value
+          })
+            .then(() => {
+              console.log('card info saved');
+            })
+            .catch((error) => {
+              console.log('failed');
+            })
+        }
+      })
+    };
+
+    function InsertShippingInfo() {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          set(ref(db, "ShippingInfo/" + uid), {
+            ReceiverName: ReceiverName.value,
+            ReceiverPhone: ReceiverPhone.value,
+            ShippingAddress: ShippingAddress.value,
+          })
+            .then(() => {
+              console.log('shipping info saved');
+            })
+            .catch((error) => {
+              console.log('failed');
+            })
+        }
+      })
+    };
+
+    function ShowCardInfo() {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          const userContentRef = ref(db, "CardInfo/" + uid);
+          onValue(userContentRef, (snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+              const lastFourDigits = userData.CardNumber ? userData.CardNumber.slice(-4) : '';
+
+              CardHolderName.value = userData.CardHolderName || '';
+              CardNumber.value = lastFourDigits ? `**** **** **** ${lastFourDigits}` : '';
+              ExpireDate.value = userData.ExpireDate || '';
+
+            } else { }
+          })
+        }
+      })
+    };
+
+    function ShowShippingInfo() {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          const userContentRef = ref(db, "ShippingInfo/" + uid);
+          onValue(userContentRef, (snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+
+              ReceiverName.value = userData.ReceiverName || '';
+              ReceiverPhone.value = userData.ReceiverPhone || '';
+              ShippingAddress.value = userData.ShippingAddress || '';
+
+
+            } else { }
+          })
+        }
+      })
+    };
+    function ShowMessage() {
+      document.getElementById('successMessage').textContent = 'Thank you for purchasing!';
+    }
+
+    CartBtn.addEventListener('click', function () {
+      const cardnumber = CardNumber.value;
+      const cardholdername = CardHolderName.value;
+      const Pin = PinNum.value;
+      const exp = ExpireDate.value;
+      const receivername = ReceiverName.value;
+      const receiverphone = ReceiverPhone.value;
+      const shippingaddress = ShippingAddress.value;
+      if (cardholdername.length == 0) {
+        alert('Please enter Card Holder Name');
+        return;
+      }
+      if (cardnumber.length == 0) {
+        alert('Please enter Card Number');
+        return;
+      }
+      if (isNaN(cardnumber)) {
+        alert('Please enter correct Receiver Phone Number');
+        return;
+      }
+      if (Pin.length !== 3) {
+        alert('Please enter a 3-digit PIN.');
+        return;
+      }
+      if (exp.length !== 4) {
+        alert('Please use correct date format.');
+        return;
+      }
+      if (receivername.length == 0) {
+        alert('Please enter Receiver Name');
+        return;
+      }
+      if (receiverphone.length == 0) {
+        alert('Please enter Receiver Phone Number');
+        return;
+      }
+      if (isNaN(receiverphone)) {
+        alert('Please enter correct Receiver Phone Number');
+        return;
+      }
+      if (shippingaddress.length == 0) {
+        alert('Please enter Shipping Address');
+        return;
+      }
+
+
+      InsertCardInfo();
+      InsertShippingInfo();
+      ShowMessage();
+      SaveTransactionData()
+    });
+
+    function SaveTransactionData() {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          const uid = user.uid;
+          const d = new Date();
+          const timestamp = d.toString();
+
+          set(ref(db, "Transaction/" + timestamp + " " + uid), {
+            Time: timestamp,
+            Books: cartItems.map(item => item.name),
+            Price: cartTotal.toFixed(2),
+            cardNumber: CardNumber.value,
+            cardHolderName: CardHolderName.value,
+            pinNum: PinNum.value,
+            expireDate: ExpireDate.value,
+            receiverName: ReceiverName.value,
+            receiverPhone: ReceiverPhone.value,
+            shippingAddress: ShippingAddress.value
+          })
+            .then(() => {
+              console.log('Transaction data saved');
+            })
+            .catch((error) => {
+              console.log('Failed');
+            });
+        }
+      });
+    }
+
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>

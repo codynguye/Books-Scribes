@@ -1,0 +1,182 @@
+@import url('index.css');
+
+main{
+  margin-left: 10px;
+}
+#resetPassword {
+  text-decoration: none;
+  color: black;
+}
+
+#resetPassword:hover {
+  color: grey;
+}
+
+.book-catalog {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.book-entry {
+  width: 300px;
+  height: 430px;
+  margin: 10px 20px 150px 20px;
+  box-sizing: border-box;
+  display: flexbox;
+}
+
+.book-display img {
+  transition: filter 0.3s ease-in-out;
+}
+
+.book-display img:hover {
+  filter: blur(10px);
+
+}
+
+
+.book-display::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  /* Initial transparent overlay */
+  transition: background-color 0.3s ease;
+  /* Add a smooth transition effect */
+}
+
+.book-display:hover::before {
+  background-color: rgba(0, 0, 0, 0.3);
+  /* Dark overlay on hover */
+}
+
+
+
+.book-display {
+  position: relative;
+
+  width: 100%;
+  /* Make the book display fill the entire width of the book-box */
+  height: 100%;
+  /* Make the book display fill the entire height of the book-box */
+  overflow: hidden;
+  /* Hide any overflowing content */
+}
+
+.book-display img {
+  width: 100%;
+  /* Make the image fill the entire width of the book-display */
+  height: 100%;
+  /* Make the image fill the entire height of the book-display */
+  object-fit: cover;
+  /* Maintain the aspect ratio while covering the entire box */
+}
+
+.book-info {
+  justify-content: center;
+  align-items: center;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.book-link {
+  text-decoration: none;
+}
+
+.book-name {
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.book-name:hover {
+  color: #ff6666;
+}
+
+.book-author {
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+
+
+.add-to-cart-btn {
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+  background-color: grey;
+  /* Darker green color on hover */
+}
+
+.remove-items{
+  font-size: 13px;
+}
+.remove-items:hover{
+  color: grey;
+}
+
+#cartBtn{
+    cursor: pointer;
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    align-items: center;
+  }
+
+#payment{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  
+}
+.class-payment-form{
+  position: relative;
+}
+
+.cart-summary {
+  position: fixed;
+  top: 0; /* Adjust the top position according to your design */
+  right: 0; /* Adjust the right position according to your design */
+  background-color: #fff; /* Set the background color to match your layout */
+  padding: 10px; /* Add some padding to the container */
+  border: 1px solid #ddd; /* Add a border for better visibility */
+  z-index: 5000; /* Set the z-index to ensure it's above other elements */
+  float: left;
+  margin-top: 50px;
+}
+
+#cartTotal {
+  margin-top: 10px;
+}
+
+
+
+  
+  @media (max-width: 768px) {
+    .modal-content {
+      flex-direction: column;
+    }
+
+  }
